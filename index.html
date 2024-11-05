@@ -1,25 +1,203 @@
+// index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Practice App</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Spelling Bee Vocabulary Test 2024</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Welcome to the Word Practice App!</h1>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- 헤더 섹션 -->
+        <header class="bg-yellow-400 text-gray-800 p-4 shadow-lg">
+            <div class="container mx-auto text-center">
+                <h1 class="text-4xl font-bold">🐝 Spelling Bee Vocabulary Test 2024</h1>
+                <p class="text-xl mt-2">신나게 단어공부해요! 🎉</p>
+                <p id="userStatus" class="mt-2 text-lg">Welcome to Spelling Bee!</p>
+                <button id="show-stats-button" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition">
+                    View Statistics 📊
+                </button>
+            </div>
+        </header>
 
-    <!-- 이름 설정 버튼 -->
-    <div id="name-setup">
-        <button id="set-name-button">Say Your Name</button>
+        <!-- 메인 콘텐츠 -->
+        <main class="container mx-auto p-4">
+            <!-- 초기 설정 섹션 -->
+            <section id="initial-setup" class="mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6 text-center animate__animated animate__fadeIn">
+                    <h2 class="text-2xl font-semibold mb-4">Let's Start Learning! 🚀</h2>
+                    <button id="set-name-button" class="bg-yellow-500 text-white px-8 py-3 rounded-full hover:bg-yellow-600 transition transform hover:scale-105">
+                        Start with Voice Recognition 🎤
+                    </button>
+                </div>
+            </section>
+
+            <!-- 학습 섹션 -->
+            <section id="learning-section" class="grid md:grid-cols-2 gap-4" style="display: none;">
+                <!-- 학습 카드 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Today's Words 📚</h2>
+                    <div id="word-display" class="mb-6 p-4 bg-yellow-50 rounded-lg">
+                        <div id="current-word" class="text-4xl font-bold text-yellow-600 mb-3">Word</div>
+                        <div id="current-meaning" class="text-2xl text-gray-600 mb-4">Meaning</div>
+                        <div id="current-sentence" class="text-lg text-gray-700 italic">"Example Sentence"</div>
+                    </div>
+                    <div class="flex gap-3 flex-wrap">
+                        <button id="start-practice-button" class="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition transform hover:scale-105">
+                            Start Learning 🎯
+                        </button>
+                        <button id="repeat-word-button" class="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition transform hover:scale-105">
+                            Repeat Word 🔄
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 진도 현황 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Your Progress 📈</h2>
+                    <div id="progress-display">
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm text-gray-600">Today's Progress</span>
+                                <span id="daily-progress-text" class="text-sm font-semibold">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-4">
+                                <div id="daily-progress-bar" class="bg-yellow-400 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm text-gray-600">Total Progress</span>
+                                <span id="total-progress-text" class="text-sm font-semibold">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-4">
+                                <div id="total-progress-bar" class="bg-green-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 테스트 섹션 -->
+            <section id="test-section" class="mt-8" style="display: none;">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Test Time! ✍️</h2>
+                    <div id="test-display" class="mb-6">
+                        <div id="test-word" class="text-3xl font-bold mb-4 text-center">Ready?</div>
+                        <div id="test-sentence" class="text-lg text-gray-700 italic mb-4"></div>
+                        <div id="test-instruction" class="text-sm text-gray-600 mb-4"></div>
+                        <button id="start-recording" class="bg-red-500 text-white px-4 py-2 rounded-full mb-4" style="display: none;">
+                            Start Speaking 🎤
+                        </button>
+                        <div id="test-result" class="mt-4 text-center"></div>
+                    </div>
+                    <div class="text-center">
+                        <button id="start-test-button" class="bg-purple-500 text-white px-8 py-3 rounded-full hover:bg-purple-600 transition transform hover:scale-105">
+                            Start Test 📝
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 복습 섹션 -->
+            <section id="review-section" class="mt-8" style="display: none;">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Review Time! 📖</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-yellow-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold mb-2">Daily Review</h3>
+                            <p class="text-sm text-gray-600 mb-2">Words to review today: <span id="review-count">0</span></p>
+                            <button id="start-review-button" class="bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 transition">
+                                Start Review 🔄
+                            </button>
+                        </div>
+                        <div class="bg-red-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold mb-2">Mistake Review</h3>
+                            <p class="text-sm text-gray-600 mb-2">Incorrect words: <span id="mistake-count">0</span></p>
+                            <button id="review-mistakes-button" class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition">
+                                Review Mistakes ❌
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 오답 노트 섹션 -->
+            <section id="mistake-note-section" class="mt-8" style="display: none;">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Mistake Notes 📝</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Word</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meaning</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mistakes</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Review</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mistake-note-body" class="bg-white divide-y divide-gray-200">
+                                <!-- JavaScript will fill this -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 통계 섹션 -->
+            <section id="stats-section" class="mt-8" style="display: none;">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Learning Statistics 📊</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <h3 class="text-sm font-medium text-gray-500">Total Words Learned</h3>
+                            <p id="total-words-learned" class="text-2xl font-bold text-blue-600">0</p>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-4">
+                            <h3 class="text-sm font-medium text-gray-500">Overall Accuracy</h3>
+                            <p id="overall-accuracy" class="text-2xl font-bold text-green-600">0%</p>
+                        </div>
+                        <div class="bg-purple-50 rounded-lg p-4">
+                            <h3 class="text-sm font-medium text-gray-500">Days Studied</h3>
+                            <p id="days-studied" class="text-2xl font-bold text-purple-600">0</p>
+                        </div>
+                        <div class="bg-yellow-50 rounded-lg p-4">
+                            <h3 class="text-sm font-medium text-gray-500">Words to Review</h3>
+                            <p id="words-to-review" class="text-2xl font-bold text-yellow-600">0</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-4 mb-6">
+                        <h3 class="text-lg font-semibold mb-4">Learning Progress</h3>
+                        <div class="h-48" id="learning-progress-chart"></div>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full table-auto">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left">Date</th>
+                                        <th class="px-4 py-2 text-left">Words Studied</th>
+                                        <th class="px-4 py-2 text-left">Accuracy</th>
+                                        <th class="px-4 py-2 text-left">Time Spent</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-activity-body">
+                                    <!-- JavaScript will fill this -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <!-- 단어 연습 및 테스트 버튼 -->
-    <button id="start-practice-button" style="display: none;">Start Practice</button>
-    <button id="start-test-button" style="display: none;">Start Test</button>
-    <p id="feedback"></p>
-
-    <!-- JavaScript 파일을 body 끝에 위치 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
