@@ -79,7 +79,6 @@
                     </div>
                 </div>
             </section>
-
 <!-- 테스트 섹션 -->
             <section id="test-section" class="mt-8" style="display: none;">
                 <div class="bg-white rounded-lg shadow-md p-6">
@@ -239,14 +238,13 @@ function showError(message) {
     }, 3000);
 }
 
-
 // 단어 리스트
-const wordList = [
-    {
-        word: "capital",
-        meaning: "수도",
-        sentences: ["Seoul is the capital of Korea.", "The capital city is very big.", "I went to the capital last summer."]
-    },
+  const wordList = [
+{
+    word: "capital",
+    meaning: "수도",
+    sentences: ["Seoul is the capital of Korea.", "The capital city is very big.", "I went to the capital last summer."]
+},
 {
     word: "special",
     meaning: "특별한",
@@ -693,7 +691,6 @@ const wordList = [
     sentences: ["The tiger has stripes.", "I like blue stripes.", "Draw some stripes."]
 }
  ];
-
 // DataManager 클래스
 class DataManager {
     constructor() {
@@ -717,7 +714,6 @@ class DataManager {
         
         this.loadSavedData();
     }
-
 loadSavedData() {
         try {
             const savedProgress = localStorage.getItem('progress');
@@ -984,6 +980,7 @@ function getRandomSentence(wordEntry) {
     const sentences = wordEntry.sentences;
     return sentences[Math.floor(Math.random() * sentences.length)];
 }
+
 // 이름 설정 함수
 async function setNameWithVoice() {
     try {
